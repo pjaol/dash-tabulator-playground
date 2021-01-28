@@ -5,7 +5,10 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash_extensions.javascript import Namespace
 import pandas as pd
+from faker import Faker
+import random
 
+fake = Faker()
 
 external_scripts = ['https://oss.sheetjs.com/sheetjs/xlsx.full.min.js']
 external_stylesheets = ['https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
@@ -90,6 +93,10 @@ def initialize(val):
     # Nones will appear as null in excel exports, so it's easier to convert them to ""
     # Using dataframes, it's possible to do client side, but will be faster with a dataframe
     d = [[1, "Oli Bob",None,None,None,None],[2,"Mary May", 1, None, None, "foo"]]
+    for i in range(3, 100):
+        p = [i, fake.name(),random.randint(10, 80),fake.color_name() , fake.date_of_birth().strftime("%m/%d/%Y"), "foo" ]
+        d.append(p)
+        
     df = pd.DataFrame(d, columns=["id", "name", "age", "col","dob","print" ])
     df.fillna(value="", inplace=True)
     print(df.dtypes)
