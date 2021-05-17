@@ -47,7 +47,7 @@ options = {
                 "groupBy": "col",
 
                 # selectable allows you to interact with the data
-                "selectable":"true", 
+                "selectable":"false", 
 
                 # An example of passing a client side JS function using NameSpace 
                 # See  https://github.com/pjaol/dash-tabulator-playground/blob/main/assets/playground.js
@@ -58,7 +58,10 @@ options = {
                 # eg.
                 # Tabulator's cellClick => function (e, cell) {}
                 # dash-tabulator cellClick => function (e, cell, table){}
-                'cellClick': ns('cellLog')
+                'cellClick': ns('cellLog'),
+                "clipBoard" : "true",
+                # adding a row freeze / double click example
+                "rowDblClick" : ns("rowDblClick")
         }
 
 
@@ -94,10 +97,10 @@ def initialize(val):
     # Using dataframes, it's possible to do client side, but will be faster with a dataframe
     d = [[1, "Oli Bob",None,None,None,None],[2,"Mary May", 1, None, None, "foo"]]
     for i in range(3, 100):
-        p = [i, fake.name(),random.randint(10, 80),fake.color_name() , fake.date_of_birth().strftime("%m/%d/%Y"), "foo" ]
+        p = [i, fake.name(),random.randint(10, 80),fake.color_name() , fake.date_of_birth().strftime("%m/%d/%Y"), random.randint(0,5), "foo" ]
         d.append(p)
-        
-    df = pd.DataFrame(d, columns=["id", "name", "age", "col","dob","print" ])
+
+    df = pd.DataFrame(d, columns=["id", "name", "age", "col","dob","rating","print" ])
     df.fillna(value="", inplace=True)
     print(df.dtypes)
     print(df.to_dict('records'))
